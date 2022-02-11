@@ -28,7 +28,7 @@ class Ticket{
     /**
      * @ORM\Column(type="date")
      */
-    private $Date;
+    private $DateTicket;
 
     /**
      * @ORM\Column(type="time")
@@ -99,21 +99,21 @@ class Ticket{
     }
 
     /**
-     * Get the value of Date
+     * Get the value of DateTicket
      */ 
     public function getDate()
     {
-        return $this->Date;
+        return $this->DateTicket;
     }
 
     /**
-     * Set the value of Date
+     * Set the value of DateTicket
      *
      * @return  self
      */ 
-    public function setDate($Date)
+    public function setDate($DateTicket)
     {
-        $this->Date = $Date;
+        $this->DateTicket = $DateTicket;
 
         return $this;
     }

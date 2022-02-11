@@ -28,12 +28,12 @@ class File{
     /**
      * @ORM\Column(type="integer")
      */
-    private $Call;
+    private $CalledNumber;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
-    private $Date;
+    private $DateFile;
 
     /**
      * @ORM\Column(type="boolean")
@@ -89,41 +89,42 @@ class File{
     }
 
     /**
-     * Get the value of Call
+     * Get the value of CalledNumber
      */ 
     public function getCall()
     {
-        return $this->Call;
+        return $this->CalledNumber;
     }
 
     /**
-     * Set the value of Call
+     * Set the value of CalledNumber
      *
      * @return  self
      */ 
-    public function setCall($Call)
+    public function setCall($CalledNumber)
     {
-        $this->Call = $Call;
+        $this->CalledNumber = $CalledNumber;
 
         return $this;
     }
 
     /**
-     * Get the value of Date
+     * Get the value of DateFile
      */ 
     public function getDate()
     {
-        return $this->Date;
+        return $this->DateFile;
     }
 
     /**
-     * Set the value of Date
+     * Set the value of DateFile
      *
      * @return  self
      */ 
-    public function setDate($Date)
+    public function setDate($DateFile)
     {
-        $this->Date = $Date;
+        $date = new \DateTime($DateFile);
+        $this->DateFile = $date;
 
         return $this;
     }

@@ -29,6 +29,11 @@ class Bank{
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $Phone;
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ImageName;
 
     /**
      * @ORM\Column(type="boolean")
@@ -122,6 +127,26 @@ class Bank{
     public function setStatut($Statut)
     {
         $this->Statut = $Statut;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of ImageName
+     */ 
+    public function getImageName()
+    {
+        return $this->ImageName;
+    }
+
+    /**
+     * Set the value of ImageName
+     *
+     * @return  self
+     */ 
+    public function setImageName($ImageName)
+    {
+        $this->ImageName = $ImageName;
 
         return $this;
     }

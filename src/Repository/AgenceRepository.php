@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Agence;
 use App\Entity\Bank;
+use App\Entity\Region;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,27 +17,46 @@ class AgenceRepository extends ServiceEntityRepository
 
     public function getAgences(){
         $db = $this->createQueryBuilder('a');
-        $bank = new Bank;
-        $db->select('a.NomAgence', 'a.Address', 'a.Phone', 'a.Ville', 'a.Statut', 'b.NomBank');
-        $db->innerJoin(Bank::class,'b','a.IDBank=b.NomBank');
-        $db->innerJoin(Region::class,'r','a.IDRegion=r.IDRegion');
-
-        
-        
+        $db
+            ->select('a.IDAgence', 'a.NomAgence', 'a.Address', 'a.Phone', 'a.Statut', 'b.NomBank', 'r.NomRegion')
+                ->innerJoin(Bank::class,'b','WITH','a.IDBank=b.IDBank')
+                ->innerJoin(Region::class,'r','WITH','a.IDRegion=r.IDRegion')
+            ->where("a.Statut = '1'");
 
         return $db->getQuery()->getResult();
     }
 
     public function getAgenceByID($id){
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = "SELECT *, NomBank FROM agence
-                    INNER JOIN bank on (agence.IDBank = bank.IDBank)
+        $db = $this->createQueryBuilder('a');
+        $db
+            ->select('a.IDAgence', 'a.NomAgence', 'a.Address', 'a.Phone', 'a.Statut', 'b.NomBank', 'r.NomRegion')
+                ->innerJoin(Bank::class,'b','WITH','a.IDBank=b.IDBank')
+                ->innerJoin(Region::class,'r','WITH','a.IDRegion=r.IDRegion')
+            ->where("a.Statut = '1'")
+            ->andWhere("a.IDAgence = ".$id);
         
-                WHERE agence.Statut='1' AND bank.Statut='1' AND agence.IDAgence=?";
-
-        $req = $conn->prepare($sql);
-        $req->bindValue(1,$id);
-        $req->executeQuery();
+        return $db->getQuery()->getResult();
+    }
+    
+    public function getAgenceByBank($id){
+        $db = $this->createQueryBuilder('a');
+        $db
+            ->select('a.IDAgence', 'a.NomAgence', 'a.Address', 'a.Phone', 'a.Statut', 'r.NomRegion')
+                ->innerJoin(Region::class,'r','WITH','a.IDRegion=r.IDRegion')
+            ->where("a.Statut = '1'")
+            ->andWhere("a.IDBank = ".$id);
+        
+        return $db->getQuery()->getResult();
+    }
+    
+    public function getAgenceByBankRegion($id,$region){
+        $db = $this->createQueryBuilder('a');
+        $db
+            ->select('a.IDAgence', 'a.NomAgence', 'a.Address', 'a.Phone', 'a.Statut', 'r.NomRegion')
+                ->innerJoin(Region::class,'r','WITH','a.IDRegion=r.IDRegion')
+            ->where("a.Statut = '1'")
+            ->andWhere("a.IDBank = ".$id." and a.IDRegion = ".$region);
+        
+        return $db->getQuery()->getResult();
     }
 }
